@@ -32,7 +32,7 @@ void BST::insert(int data) {
    Node* current = root;
 
    while (current != nullptr) {
-      if (data == current->data) return;
+      // if (data == current->data) return;
       parent = current;
       if (data < current->data) {
          current = current->left;
@@ -49,8 +49,12 @@ void BST::insert(int data) {
    if (parent == nullptr) {
       // If the parent is null we're at the root
       root = newNode;
+      return;
    }
-   else if (data < parent->data) {
+
+   // Insert the node by setting the pointers
+   newNode->parent = parent;
+   if (data < parent->data) {
       parent->left = newNode;
    }
    else {
