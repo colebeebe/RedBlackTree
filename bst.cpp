@@ -1,6 +1,14 @@
 #include <iostream>
 #include "bst.h"
 
+Node::Node() {
+   data   = 0;
+   parent = nullptr;
+   left   = nullptr;
+   right  = nullptr;
+   isRed  = true;
+}
+
 BST::BST() {
    root = nullptr;
 }
@@ -27,12 +35,57 @@ void BST::deleteAll(Node* node) {
    delete node;
 }
 
+void BST::rotateLeft(Node* x) {
+   Node* y = x->right;
+   x->right = y->left;
+   if (x->right) {
+      x->right->parent = x;
+   }
+
+   y->parent = x->parent;
+   if (x == root) {
+      root = y;
+   }
+   else if (x == x->parent->left) {
+      x->parent->left = y;
+   }
+   else {
+      x->parent->right = y;
+   }
+
+   y->left = x;
+   x->parent = y;
+}
+
+void BST::rotateRight(Node* x) {
+   Node* y = x->left;
+   x->left = y->right;
+   if (x->left) {
+      x->left->parent = x;
+   }
+
+   y->parent = x->parent;
+   if (x == root) {
+      root = y;
+   }
+   else if (x == x->parent->left) {
+      x->parent->left = y;
+   }
+   else {
+      x->parent->right = y;
+   }
+
+   y->right = x;
+   x->parent = y;
+}
+
 void BST::insert(int data) {
    Node* parent = nullptr;
    Node* current = root;
 
-   while (current != nullptr) {
+   while (current) {
       if (data == current->data) return;
+
       parent = current;
       if (data < current->data) {
          current = current->left;
@@ -46,7 +99,7 @@ void BST::insert(int data) {
    Node* newNode = new Node;
    newNode->data = data;
 
-   if (parent == nullptr) {
+   if (!parent) {
       // If the parent is null we're at the root
       root = newNode;
       return;

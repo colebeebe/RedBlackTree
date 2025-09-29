@@ -4,10 +4,12 @@
 struct Node {
 public:
    int data;
-   Node* parent = nullptr;
-   Node* left   = nullptr;
-   Node* right  = nullptr;
+   Node* parent;
+   Node* left;
+   Node* right;
+   bool isRed;
 
+   Node();
 };
 
 class BST {
@@ -16,6 +18,8 @@ private:
 
    void inOrderHelper(Node* node);
    void deleteAll(Node* node);
+   void rotateLeft(Node* x);
+   void rotateRight(Node* x);
 
 public:
    BST();
@@ -23,7 +27,6 @@ public:
 
    void insert(int data);
    void inOrder();
-
 };
 
 #endif /* BST_H */

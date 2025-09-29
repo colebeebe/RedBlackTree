@@ -18,6 +18,7 @@ Having now taken a fair amount of time researching Binary Search Trees, I believ
 
 Given that we have a well-maintained, balanced tree, when it comes time to search for values within the data set, we are able to find the data extremely quickly, as with each iteration we remove roughly half of all possible nodes to search.
 
+# Implementation
 
 ## 27 September 2025
 
@@ -52,3 +53,89 @@ graph TD
 ```
 
 With this visualization, it is much easier to understand on a small scale how we are eliminating a large portion of nodes with each iteration: if we were to search for 4, for example, we would start at the root node. Seeing as 4 is greater than 3, we traverse to the right. Because we know that no value greater than 3 can ever be placed to the left, we can skip all leftward nodes. We then move to the node containing 5, where the process is repeated, only traversing to the left this time. There aren't any valid nodes to the right, but were we to have any, we again wouldn't have to check any of them. In this case, instead of making four checks (as we would have to in a sorted array), we only make two before finding our value.
+
+## 29 September 2025
+
+The next step we need to take is implementing functionality to rotate nodes. After some research, I settled on a solution. We need to go from this:
+
+```mermaid
+graph TD
+    A((x)) --> a((\))
+    A --> B((y))
+    B --> b((z))
+    B --> C((\))
+```
+
+To this:
+
+```mermaid
+graph TD
+    A((y)) --> a((x))
+    a --> a1((\))
+    a --> a2((z))
+    A --> B((\))
+```
+
+The solution I came to:
+
+```c++
+void BST::rotateLeft(Node* x) {
+   // Point at y since we're about to replace its spot and therefore would lose reference to it otherwise
+   Node* y = x->right;
+
+   // Set y->left to its new position
+   x->right = y->left;
+   if (x->right) {
+      x->right->parent = x;
+   }
+
+   // Set the new parent of x
+   y->parent = x->parent;
+   if (x == root) {
+      root = y;
+   }
+   else if (x == x->parent->left) {
+      x->parent->left = y;
+   }
+   else {
+      x->parent->right = y;
+   }
+
+   // Reestablish the relationship between x and y
+   y->left = x;
+   x->parent = y;
+}
+```
+
+Which, on the above tree step-by-step, looks like this:
+
+```mermaid
+graph TD
+    A((x)) --> a((\))
+    A --> B((y))
+    B --> b((z))
+    B --> C((\))
+```
+
+1. Point y to the right node of x and then set y->left to be x->right (if it is not null, set its parent to be x):
+
+```mermaid
+graph TD
+    A((x)) --> a((\))
+    A --> B((z))
+    C((y))
+```
+
+2. Set the parent of y to be the new parent of x. If it is now null, that means it's the root. Otherwise, set x to be the proper (left or right) child of its parent.
+
+3. Set the relationship between x and y:
+
+```mermaid
+graph TD
+    A((y)) --> a((x))
+    a --> a1((\))
+    a --> a2((z))
+    A --> B((\))
+```
+
+We can then do this same thing but reversed for a right-side rotation.
