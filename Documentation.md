@@ -89,7 +89,7 @@ void BST::rotateLeft(Node* x) {
       x->right->parent = x;
    }
 
-   // Set the new parent of x
+   // Set the new parent of y
    y->parent = x->parent;
    if (x == root) {
       root = y;
