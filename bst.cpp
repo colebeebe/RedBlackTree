@@ -2,11 +2,11 @@
 #include "bst.h"
 
 Node::Node() {
-   data   = 0;
-   parent = nullptr;
-   left   = nullptr;
-   right  = nullptr;
-   isRed  = true;
+   data     = 0;
+   parent   = nullptr;
+   left     = nullptr;
+   right    = nullptr;
+   isBlack  = true;
 }
 
 BST::BST() {
@@ -19,7 +19,7 @@ BST::~BST() {
 }
 
 void BST::inOrderHelper(Node* node) {
-   if (node == nullptr) return;
+   if (!node) return;
 
    inOrderHelper(node->left);
    std::cout << node->data << " ";
@@ -27,12 +27,75 @@ void BST::inOrderHelper(Node* node) {
 }
 
 void BST::deleteAll(Node* node) {
-   if (node == nullptr) return;
+   if (!node) return;
 
    deleteAll(node->left);
    deleteAll(node->right);
 
    delete node;
+}
+
+void BST::fixViolations(Node* node) {
+   // Recursion return case
+   if (!node) return;
+
+   // Case 1: Node is the root
+   if (!node->parent) return;
+
+   // Case 2: Parent is black
+   if (node->parent->isBlack) return;
+
+   // Case 3: Parent is red
+   if (!node->parent->parent) return;
+
+   Node* grandparent = node->parent->parent;
+   Node* uncle = nullptr;
+
+   if (grandparent->left == node->parent) {
+      uncle = grandparent->right;
+   }
+   else {
+      uncle = grandparent->left;
+   }
+
+   // Case 3a: Uncle is red
+   if (uncle && !uncle->isBlack) {
+      node->parent->isBlack = true;
+      uncle->isBlack = true;
+      grandparent->isBlack = false;
+      fixViolations(grandparent);
+   }
+   // Case 3b: Uncle is black (or null)
+   else {
+      if (node == node->parent->left) {
+         // Left-Left Case
+         if (node->parent == grandparent->left) {
+            rotateRight(grandparent);
+            node->parent->isBlack = true;
+         }
+         // Right-Left Case
+         else {
+            rotateRight(node->parent);
+            rotateLeft(grandparent);
+            node->isBlack = true;
+         }
+      }
+      else {
+         // Right-Right Case
+         if (node->parent == grandparent->right) {
+            rotateLeft(grandparent);
+            node->parent->isBlack = true;
+         }
+         // Left-Right Case
+         else {
+            rotateLeft(node->parent);
+            rotateRight(grandparent);
+            node->isBlack = true;
+         }
+      }
+      // No matter what, the grandparent always turns red
+      grandparent->isBlack = false;
+   }
 }
 
 void BST::rotateLeft(Node* x) {
@@ -106,6 +169,7 @@ void BST::insert(int data) {
    }
 
    // Insert the node by setting its pointers
+   newNode->isBlack = false;
    newNode->parent = parent;
    if (data < parent->data) {
       parent->left = newNode;
@@ -114,10 +178,43 @@ void BST::insert(int data) {
       parent->right = newNode;
    }
 
+   // Once Red-Black violations have been fixed, the root is always set to black
+   fixViolations(newNode);
+   root->isBlack = true;
+
 }
 
 void BST::inOrder() {
    std::cout << "[ ";
    inOrderHelper(root);
    std::cout << "]" << std::endl;
+}
+
+void BST::printTreeHelper(Node* node, int space) {
+    if (node == nullptr)
+        return;
+
+    // Increase distance between levels
+    space += 6;
+
+    // Print right child first (so it shows on top)
+    printTreeHelper(node->right, space);
+
+    // Print current node after spacing
+    std::cout << std::endl;
+    for (int i = 6; i < space; i++)
+        std::cout << " ";
+
+    // Print node value and color
+    std::cout << node->data << (node->isBlack ? "B" : "R") << "\n";
+
+    // Print left child
+    printTreeHelper(node->left, space);
+}
+
+// Wrapper function
+void BST::printTree() {
+    std::cout << "\nRed-Black Tree structure:\n";
+    printTreeHelper(root, 0);
+    std::cout << std::endl;
 }
