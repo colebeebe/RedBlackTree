@@ -189,32 +189,3 @@ void BST::inOrder() {
    inOrderHelper(root);
    std::cout << "]" << std::endl;
 }
-
-void BST::printTreeHelper(Node* node, int space) {
-    if (node == nullptr)
-        return;
-
-    // Increase distance between levels
-    space += 6;
-
-    // Print right child first (so it shows on top)
-    printTreeHelper(node->right, space);
-
-    // Print current node after spacing
-    std::cout << std::endl;
-    for (int i = 6; i < space; i++)
-        std::cout << " ";
-
-    // Print node value and color
-    std::cout << node->data << (node->isBlack ? "B" : "R") << "\n";
-
-    // Print left child
-    printTreeHelper(node->left, space);
-}
-
-// Wrapper function
-void BST::printTree() {
-    std::cout << "\nRed-Black Tree structure:\n";
-    printTreeHelper(root, 0);
-    std::cout << std::endl;
-}

@@ -21,7 +21,6 @@ private:
    void fixViolations(Node* node);
    void rotateLeft(Node* x);
    void rotateRight(Node* x);
-   void printTreeHelper(Node* node, int space);
 
 public:
    BST();
@@ -29,7 +28,6 @@ public:
 
    void insert(int data);
    void inOrder();
-   void printTree();
 };
 
 #endif /* BST_H */

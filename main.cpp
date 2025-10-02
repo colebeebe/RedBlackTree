@@ -19,9 +19,6 @@ int main() {
    }
 
    bst.inOrder();
-   
-   std::cout << std::endl;
-   bst.printTree();
 
    return 0;
 
