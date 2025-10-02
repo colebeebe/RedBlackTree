@@ -139,3 +139,21 @@ graph TD
 ```
 
 We can then do this same thing but reversed for a right-side rotation.
+
+## 2 October 2025
+
+This was a big day. The main goal I had when sitting down at the project was to color nodes upon insertion. Of course, it is simple to follow the first steps of coloring nodes; The basics are that any null nodes are black, any new nodes are red, and the root node is always black. The major challenge is making sure that *all* properties are satisfied:
+
+1. All nodes are either red or black
+2. The root of the tree is *always* black
+3. All leaves (or `null` nodes) are black
+4. Red nodes cannot be adjacent (no red node can have a red child)
+5. Every path from a node to its leaves must have the same number of black children
+
+Naturally, not only is it the case that the last property is the most difficult to satisfy, but also it is the most difficult to *understand*. It took me quite a while to conceptualize what it was talking about, and no one source that I could find gave a sufficiently descriptive explanation, but rather, my understanding of the rule is an amalgamation from different sites.
+
+The concept is not too difficult to understand; essentially what we are saying is that if you traverse from any node in the tree to any of its leaves, you should always visit the same amount of black nodes, regardless of which leaf you chose. My struggle stemmed from attempting to conceptualize how to even begin making sure that this could be achieved without cyclically changing node colors and rotations.
+
+I found a very useful page [here](https://www.geeksforgeeks.org/dsa/insertion-in-red-black-tree/), which outlined the steps to take to make sure that property number five was kept satisfied. 
+
+Now that this has been implemented, the next step is to implement deletion, seeing as the only way to interact with the tree right now is to permanently insert data.
