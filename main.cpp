@@ -9,7 +9,7 @@ using namespace std;
  * rotated 90 degrees counter-clockwise.
  *   INPUT  bst   The BST to be displayed
  *************************************************************************/
-void printBST(BST bst) {
+void printBst(BST bst) {
    cout << "BST tree structure:" << endl;
    bst.printTree();
    cout << endl << endl;
@@ -111,7 +111,7 @@ int main() {
    BST bst;
 
    insertionTest(bst);
-   bst.printTree();
+   printBst(bst);
 
    orderTests(bst);
    minMaxTests(bst);
