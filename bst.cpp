@@ -46,6 +46,7 @@ Node* BST::copyTree(Node* node) {
    // Create a copy of the node
    Node* newNode = new Node;
    newNode->data = node->data;
+   newNode->isBlack = node->isBlack;
 
    // Visit and copy all other nodes
    newNode->left = copyTree(node->left);
