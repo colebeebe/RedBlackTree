@@ -14,6 +14,7 @@ Node::Node() {
 }
 
 
+
 //////////////////////////////////
 // BST CONSTRUCTOR & DESTRUCTOR //
 //////////////////////////////////
@@ -22,29 +23,39 @@ BST::BST() {
    root = nullptr;
 }
 
+
 BST::BST(BST& bst) {
    root = copyTree(bst.root);
 }
+
 
 BST::~BST() {
    clear();
 }
 
-////////////////////////////
-// PRIVATE MEMBER METHODS //
-////////////////////////////
+
+
+////////////////////////////////
+// BST PRIVATE MEMBER METHODS //
+////////////////////////////////
 
 Node* BST::copyTree(Node* node) {
+   // Recursion return case
    if (!node) return nullptr;
 
+   // Create a copy of the node
    Node* newNode = new Node;
    newNode->data = node->data;
 
+   // Visit and copy all other nodes
    newNode->left = copyTree(node->left);
    newNode->right = copyTree(node->right);
 
+   // Return the node and all its children
+   // This will be the root node after recursion is finished
    return newNode;
 }
+
 
 void BST::fixInsertionViolations(Node* node) {
    // Recursion return case
@@ -109,9 +120,15 @@ void BST::fixInsertionViolations(Node* node) {
    }
 }
 
+
 void BST::rotateLeft(Node* x) {
+   // y will move from the right of x to be its parent
    Node* y = x->right;
+
+   // Now that we have reference to y, we can connect its left node to x
+   // in its place (to the right of x)
    x->right = y->left;
+   // If the node wasn't null, connect x as its parent
    if (x->right) {
       x->right->parent = x;
    }
@@ -131,9 +148,15 @@ void BST::rotateLeft(Node* x) {
    x->parent = y;
 }
 
+
 void BST::rotateRight(Node* x) {
+   // y will move from the left of x to be its parent
    Node* y = x->left;
+
+   // Now that we have reference to y, we can connect its right node to x
+   // in its place (to the left of x)
    x->left = y->right;
+   // If the node wasn't null, connect x as its parent
    if (x->left) {
       x->left->parent = x;
    }
@@ -153,7 +176,9 @@ void BST::rotateRight(Node* x) {
    x->parent = y;
 }
 
+
 void BST::inorderHelper(Node* node) {
+   // Recursion return case
    if (!node) return;
 
    inorderHelper(node->left);
@@ -161,7 +186,9 @@ void BST::inorderHelper(Node* node) {
    inorderHelper(node->right);
 }
 
+
 void BST::preorderHelper(Node* node) {
+   // Recursion return case
    if (!node) return;
 
    std::cout << node->data << " ";
@@ -169,7 +196,9 @@ void BST::preorderHelper(Node* node) {
    preorderHelper(node->right);
 }
 
+
 void BST::postorderHelper(Node* node) {
+   // Recursion return case
    if (!node) return;
 
    postorderHelper(node->left);
@@ -177,7 +206,9 @@ void BST::postorderHelper(Node* node) {
    std::cout << node->data << " ";
 }
 
+
 int BST::sizeHelper(Node* node) {
+   // Recursion return case
    if (!node) return 0;
 
    int size = 0;
@@ -187,7 +218,9 @@ int BST::sizeHelper(Node* node) {
    return size;
 }
 
+
 int BST::findMinHelper(Node* node) {
+   // Recursion return case
    if (!node) return 0;
 
    if (!node->left) return node->data;
@@ -195,7 +228,9 @@ int BST::findMinHelper(Node* node) {
    return findMinHelper(node->left);
 }
 
+
 int BST::findMaxHelper(Node* node) {
+   // Recursion return case
    if (!node) return 0;
 
    if (!node->right) return node->data;
@@ -203,7 +238,9 @@ int BST::findMaxHelper(Node* node) {
    return findMaxHelper(node->right);
 }
 
+
 void BST::printTreeHelper(Node* node, int space) {
+   // Recursion return case
    if (!node) return;
 
    // Increase distance between levels
@@ -224,7 +261,9 @@ void BST::printTreeHelper(Node* node, int space) {
    printTreeHelper(node->left, space);
 }
 
+
 void BST::deleteAll(Node* node) {
+   // Recursion return case
    if (!node) return;
 
    deleteAll(node->left);
@@ -234,17 +273,22 @@ void BST::deleteAll(Node* node) {
 }
 
 
-///////////////////////////
-// PUBLIC MEMBER METHODS //
-///////////////////////////
+
+///////////////////////////////
+// BST PUBLIC MEMBER METHODS //
+///////////////////////////////
 
 bool BST::contains(int data) {
+   // TODO: Implement function
    return false;
 }
 
+
 Node* BST::search(int data) {
+   // TODO: Implement function
    return nullptr;
 }
+
 
 void BST::insert(int data) {
    Node* parent = nullptr;
@@ -288,9 +332,11 @@ void BST::insert(int data) {
 
 }
 
-void BST::remove(int data) {
 
+void BST::remove(int data) {
+   // TODO: Implement function
 }
+
 
 void BST::inorder() {
    std::cout << "[ ";
@@ -298,11 +344,13 @@ void BST::inorder() {
    std::cout << "]";
 }
 
+
 void BST::preorder() {
    std::cout << "[ ";
    preorderHelper(root);
    std::cout << "]";
 }
+
 
 void BST::postorder() {
    std::cout << "[ ";
@@ -310,35 +358,44 @@ void BST::postorder() {
    std::cout << "]";
 }
 
+
 int BST::size() {
    return sizeHelper(root);
 }
 
+
 int BST::height() {
+   // TODO: Implement function
    return 0;
 }
+
 
 bool BST::isEmpty() {
    return size() == 0;
 }
 
+
 int BST::findMin() {
    return findMinHelper(root);
 }
 
+
 int BST::findMax() {
    return findMaxHelper(root);
 }
+
 
 void BST::printTree() {
    printTreeHelper(root, 0);
    std::cout << std::endl;
 }
 
+
 void BST::clear() {
    deleteAll(root);
    root = nullptr;
 }
+
 
 BST& BST::operator=(const BST& rhs) {
    if (this != &rhs) {
