@@ -101,6 +101,8 @@ void sizeAndEmptyTest(BST bst) {
 void clearTest(BST& bst) {
    cout << "Clearing..." << endl;
    bst.clear();
+   // If clear() was successful, the BST should be empty and it should
+   // have a size of 0
    sizeAndEmptyTest(bst);
 }
 
