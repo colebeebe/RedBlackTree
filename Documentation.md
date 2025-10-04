@@ -157,3 +157,51 @@ The concept is not too difficult to understand; essentially what we are saying i
 I found a very useful page [here](https://www.geeksforgeeks.org/dsa/insertion-in-red-black-tree/), which outlined the steps to take to make sure that property number five was kept satisfied. 
 
 Now that this has been implemented, the next step is to implement deletion, seeing as the only way to interact with the tree right now is to permanently insert data.
+
+## 4 October 2025
+
+### Wrapping up
+
+Beginning this day there was still I wanted to do to make sure that everything was ready for submission. The first thing I did was to look into what functions I was still missing, most of which I figured couldn't be too difficult. 
+
+A quick summary of some of these simple functions are as follows:
+
+- `copyTree()`: Recursively copies the tree to another. Used in the newly created copy constructor and the `=` operator overload
+- `contains()`: Returns a true if the value is in the tree and false otherwise
+- `search()`: Returns the node that contains the designated value
+- `preorder()`: Prints the tree in the order that it is traversed when being copied (this is here for demonstration purposes, but spiritually is the same algorithm as is used in `copyTree()`)
+- `postorder()`: Similar to preorder but in the order used for deleting all nodes
+- `size()`: Recursively determines the size of the tree
+- `height()`: Recursively determines the height (the distance from the root to the furthest leaf) of the tree. This is **paths** (or connections) not nodes
+- `isEmpty()`: Returns true if the tree has no data in it
+- `findMin()`: Recursively finds the smallest value in the tree
+- `findMax()`: Recursively finds the largest value in the tree
+- `printTree()`: Prints a visually friendly version of the tree, where the root node is on the left and the tree has been rotated 90 degrees counter-clockwise
+- `clear()`: A wrapper function for the previously defined `deleteAll()` function, so that it can be called from outside the class definition but also protect the root node
+- Helper functions for all recursive functions to protect the root node
+
+Despite the apparent volume of additions, these changes alongside adding documentation comments only took around an hour to an hour and a half to implement. This is because most were very simple (for example, `findMin()` just had to recursively move to the left until it couldn't anymore, and return that value, or `isEmpty()` simply returns `size() == 0`). The most difficult thing was the copy logic, where I foolishly forgot a couple of things along the way only to realize much later that I had omitted them, such as, for example, when I didn't realize for about an hour that I wasn't copying the color of each node, so I became confused when my trees were printing with all black nodes.
+
+As time has gone on, it has become clear that I will not have the time to implement removal. I knew that it was very involved but I didn't realize how much I would have to implement for the balancing to remain intact.
+
+# Post-Mortem Analysis
+
+I really do wish I would have had time to implement removal as well. I will likely visit this project again in the future to finish it, just for completion's sake. 
+
+## What Went Well
+
+For the most part, I feel that I was able to hit my goals on time with what I expected. I was originally very nervous that the pointers were going to be the hardest part, but soon it was very easy for me to use them effectively. I also found that I enjoyed watching the project slowly grow from just a few simple tests to nearly a thousand lines in length across the different files.
+
+## What Didn't Go Well
+
+I think the biggest downfall was, again, the fact that I wasn't able to implement removal. It was a case of, 'Ok, I know that everything I've seen says that this is hard, but it can't be that bad, right?' So when I got to that point, I realized just how involved it would be. I did get basic BST removal working, but I ended up removing it because it would mess up the colors of the nodes, causing the tree to not balance properly.
+
+Other than that, though, I felt that the project went well.
+
+## What I'm Taking Away
+
+There were lots of things that I learned during this process. I am much more confident with pointers, for sure. Also, C++ in general is much more approachable for me.
+
+One thing that I hadn't accounted for was just how much recursion would be involved in this project. I had a very shallow understanding of recursion before this project, but now I feel rather confident with it. It got to the point that I would think to myself, 'Ok, I have several recursive functions to implement. I should be able to get those out in about fifteen to twenty minutes,' which is something I wouldn't have thought I could do just a few short months ago.
+
+I also enjoyed seeing the Kaizen mindset at play, where it was rather common for me to only have a little bit of time to do something so I'd open the project and add a couple lines of code. I would often find myself doing this multiple times a day and I slowly was able to create the rather large project that it became.

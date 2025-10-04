@@ -94,6 +94,45 @@ void sizeAndEmptyTest(BST bst) {
 }
 
 /*************************************************************************
+ * SEARCH TEST
+ * Allow the user to search for values in the BST.
+ *   INPUT  bst   The BST to be tested
+ *************************************************************************/
+void searchTest(BST bst) {
+   cout << "Enter positive integers to search for in the tree." << endl;
+   cout << "When finished enter 0" << endl;
+
+   // Set the input to a negative value so we can enter the while-loop
+   // IMPORANT: This does NOT do any checking; it assumes the user will
+   // only ever input integers
+   int input = -1;
+   while (input != 0) {
+      cout << "> ";
+      cin >> input;
+      if (input < 0) {
+         cout << "Input must be positive." << endl;
+         continue;
+      }
+
+      if (input != 0) {
+         cout << input << " is" << (bst.contains(input) ? " " : " not ") 
+            << "in the BST" << endl << endl;
+      }
+   }
+
+   cout << endl;
+}
+
+/*************************************************************************
+ * HEIGHT TEST
+ * Print the height of the tree.
+ *   INPUT  bst   The BST to be tested
+ *************************************************************************/
+void heightTest(BST bst) {
+   cout << "Height of tree: " << bst.height() << endl << endl;
+}
+
+/*************************************************************************
  * CLEAR TEST
  * Test if the BST can be cleared properly. Calls sizeAndEmptyTest().
  *   INPUT  bst   The BST to be cleared, passed by reference
@@ -114,12 +153,16 @@ int main() {
 
    BST bst;
 
+   // Now that we've created the BST, let's test it
    insertionTest(bst);
    printBst(bst);
 
    orderTests(bst);
    minMaxTests(bst);
    sizeAndEmptyTest(bst);
+
+   searchTest(bst);
+   heightTest(bst);
 
    clearTest(bst);
 

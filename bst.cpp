@@ -186,6 +186,23 @@ void BST::rotateRight(Node* x) {
 }
 
 
+Node* BST::search(Node* node, int data) {
+   // Recursion return case (not found)
+   if (!node) return nullptr;
+
+   // Recursion return case (found)
+   if (node->data == data) return node;
+
+   // Search in the direction of the value
+   if (data < node->data) {
+      return search(node->left, data);
+   }
+   else {
+      return search(node->right, data);
+   }
+}
+
+
 void BST::inorderHelper(Node* node) {
    // Recursion return case
    if (!node) return;
@@ -229,6 +246,22 @@ int BST::sizeHelper(Node* node) {
    size += 1;
    size += sizeHelper(node->right);
    return size;
+}
+
+
+int BST::heightHelper(Node* node) {
+   // Recursion return case
+   if (!node) return -1;
+
+   // Search all paths
+   int leftHeight = heightHelper(node->left);
+   int rightHeight = heightHelper(node->right);
+
+   // Find the largest height along all paths
+   if (leftHeight > rightHeight) {
+      return 1 + leftHeight;
+   }
+   return 1 + rightHeight;
 }
 
 
@@ -298,14 +331,7 @@ void BST::deleteAll(Node* node) {
 ///////////////////////////////
 
 bool BST::contains(int data) {
-   // TODO: Implement function
-   return false;
-}
-
-
-Node* BST::search(int data) {
-   // TODO: Implement function
-   return nullptr;
+   return search(root, data);
 }
 
 
@@ -386,8 +412,7 @@ int BST::size() {
 
 
 int BST::height() {
-   // TODO: Implement function
-   return 0;
+   return heightHelper(root);
 }
 
 

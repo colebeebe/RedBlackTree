@@ -41,6 +41,14 @@ private:
     *************************************************************************/
    void rotateRight(Node* x);
 
+
+   /*************************************************************************
+    * SEARCH
+    * Returns the node object containing the specified value.
+    *   INPUT  data  The data to get the node of
+    *************************************************************************/
+   Node* search(Node* node, int data);
+
    /*************************************************************************
     * IN ORDER HELPER
     * Helper function to print BST in sequential order. A helper is used to 
@@ -76,6 +84,14 @@ private:
     *   INPUT  node  The node to begin counting size from (usually the root)
     *************************************************************************/
    int sizeHelper(Node* node);
+
+   /*************************************************************************
+    * HEIGHT HELPER
+    * Helper function to get the height of the BST. A helper is used to 
+    * protect the root node from being exposed to the user.
+    *   INPUT  node  The node to calculate height from (usually the root)
+    *************************************************************************/
+   int heightHelper(Node* node);
 
    /*************************************************************************
     * FIND MIN HELPER
@@ -149,14 +165,6 @@ public:
     *                     exists in the tree
     *************************************************************************/
    bool contains(int data);
-
-   /*************************************************************************
-    * SEARCH
-    * With great power comes great responsibility. Returns the node object
-    * containing the specified value.
-    *   INPUT  data  The data to get the node of
-    *************************************************************************/
-   Node* search(int data);
 
    /*************************************************************************
     * INSERT
