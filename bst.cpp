@@ -133,10 +133,13 @@ void BST::rotateLeft(Node* x) {
       x->right->parent = x;
    }
 
+   // Set the new parent of y
    y->parent = x->parent;
+   // If x was the root, y becomes the new root
    if (x == root) {
       root = y;
    }
+   // Put y in the place x used to be
    else if (x == x->parent->left) {
       x->parent->left = y;
    }
@@ -144,6 +147,7 @@ void BST::rotateLeft(Node* x) {
       x->parent->right = y;
    }
 
+   // Set the relation between x and y
    y->left = x;
    x->parent = y;
 }
@@ -161,10 +165,13 @@ void BST::rotateRight(Node* x) {
       x->left->parent = x;
    }
 
+   // Set the new parent of y
    y->parent = x->parent;
+   // If x was the root, y becomes the new root
    if (x == root) {
       root = y;
    }
+   // Put y in the place x used to be
    else if (x == x->parent->left) {
       x->parent->left = y;
    }
@@ -172,6 +179,7 @@ void BST::rotateRight(Node* x) {
       x->parent->right = y;
    }
 
+   // Set the relation between x and y
    y->right = x;
    x->parent = y;
 }
@@ -181,6 +189,7 @@ void BST::inorderHelper(Node* node) {
    // Recursion return case
    if (!node) return;
 
+   // Visit all nodes and print out in order
    inorderHelper(node->left);
    std::cout << node->data << " ";
    inorderHelper(node->right);
@@ -191,6 +200,7 @@ void BST::preorderHelper(Node* node) {
    // Recursion return case
    if (!node) return;
 
+   // Visit all nodes and print out in preorder
    std::cout << node->data << " ";
    preorderHelper(node->left);
    preorderHelper(node->right);
@@ -201,6 +211,7 @@ void BST::postorderHelper(Node* node) {
    // Recursion return case
    if (!node) return;
 
+   // Visit all nodes and print out in postorder
    postorderHelper(node->left);
    postorderHelper(node->right);
    std::cout << node->data << " ";
@@ -211,6 +222,7 @@ int BST::sizeHelper(Node* node) {
    // Recursion return case
    if (!node) return 0;
 
+   // Visit all nodes and increment size each time
    int size = 0;
    size += sizeHelper(node->left);
    size += 1;
@@ -220,21 +232,25 @@ int BST::sizeHelper(Node* node) {
 
 
 int BST::findMinHelper(Node* node) {
-   // Recursion return case
+   // If the tree is empty, return zero
    if (!node) return 0;
 
+   // Recursion return case
    if (!node->left) return node->data;
 
+   // Traverse as far left as we can
    return findMinHelper(node->left);
 }
 
 
 int BST::findMaxHelper(Node* node) {
-   // Recursion return case
+   // If the tree is empty, return zero
    if (!node) return 0;
 
+   // Recursion return case
    if (!node->right) return node->data;
    
+   // Traverse as far right as we can
    return findMaxHelper(node->right);
 }
 
@@ -266,9 +282,11 @@ void BST::deleteAll(Node* node) {
    // Recursion return case
    if (!node) return;
 
+   // Visit all nodes
    deleteAll(node->left);
    deleteAll(node->right);
 
+   // Delete it all
    delete node;
 }
 
@@ -294,7 +312,9 @@ void BST::insert(int data) {
    Node* parent = nullptr;
    Node* current = root;
 
+   // Find where the node should be inserted
    while (current) {
+      // If the data already exists, don't add it again
       if (data == current->data) return;
 
       parent = current;
@@ -371,6 +391,7 @@ int BST::height() {
 
 
 bool BST::isEmpty() {
+   // If the size is zero, the tree must be empty
    return size() == 0;
 }
 
@@ -393,13 +414,16 @@ void BST::printTree() {
 
 void BST::clear() {
    deleteAll(root);
+   // Make sure to set the root to null
    root = nullptr;
 }
 
 
 BST& BST::operator=(const BST& rhs) {
    if (this != &rhs) {
+      // Delete anything that might be in the tree
       clear();
+      // Copy the tree
       root = copyTree(rhs.root);
    }
    return *this;
