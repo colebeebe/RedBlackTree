@@ -1,6 +1,10 @@
 #include <iostream>
 #include "bst.h"
 
+//////////////////////
+// NODE CONSTRUCTOR //
+//////////////////////
+
 Node::Node() {
    data     = 0;
    parent   = nullptr;
@@ -9,33 +13,40 @@ Node::Node() {
    isBlack  = true;
 }
 
+
+//////////////////////////////////
+// BST CONSTRUCTOR & DESTRUCTOR //
+//////////////////////////////////
+
 BST::BST() {
    root = nullptr;
 }
 
+BST::BST(BST& bst) {
+   root = copyTree(bst.root);
+}
+
 BST::~BST() {
-   deleteAll(root);
-   root = nullptr;
+   clear();
 }
 
-void BST::inOrderHelper(Node* node) {
-   if (!node) return;
+////////////////////////////
+// PRIVATE MEMBER METHODS //
+////////////////////////////
 
-   inOrderHelper(node->left);
-   std::cout << node->data << " ";
-   inOrderHelper(node->right);
+Node* BST::copyTree(Node* node) {
+   if (!node) return nullptr;
+
+   Node* newNode = new Node;
+   newNode->data = node->data;
+
+   newNode->left = copyTree(node->left);
+   newNode->right = copyTree(node->right);
+
+   return newNode;
 }
 
-void BST::deleteAll(Node* node) {
-   if (!node) return;
-
-   deleteAll(node->left);
-   deleteAll(node->right);
-
-   delete node;
-}
-
-void BST::fixViolations(Node* node) {
+void BST::fixInsertionViolations(Node* node) {
    // Recursion return case
    if (!node) return;
 
@@ -63,7 +74,7 @@ void BST::fixViolations(Node* node) {
       node->parent->isBlack = true;
       uncle->isBlack = true;
       grandparent->isBlack = false;
-      fixViolations(grandparent);
+      fixInsertionViolations(grandparent);
    }
    // Case 3b: Uncle is black (or null)
    else {
@@ -142,6 +153,99 @@ void BST::rotateRight(Node* x) {
    x->parent = y;
 }
 
+void BST::inorderHelper(Node* node) {
+   if (!node) return;
+
+   inorderHelper(node->left);
+   std::cout << node->data << " ";
+   inorderHelper(node->right);
+}
+
+void BST::preorderHelper(Node* node) {
+   if (!node) return;
+
+   std::cout << node->data << " ";
+   preorderHelper(node->left);
+   preorderHelper(node->right);
+}
+
+void BST::postorderHelper(Node* node) {
+   if (!node) return;
+
+   postorderHelper(node->left);
+   postorderHelper(node->right);
+   std::cout << node->data << " ";
+}
+
+int BST::sizeHelper(Node* node) {
+   if (!node) return 0;
+
+   int size = 0;
+   size += sizeHelper(node->left);
+   size += 1;
+   size += sizeHelper(node->right);
+   return size;
+}
+
+int BST::findMinHelper(Node* node) {
+   if (!node) return 0;
+
+   if (!node->left) return node->data;
+
+   return findMinHelper(node->left);
+}
+
+int BST::findMaxHelper(Node* node) {
+   if (!node) return 0;
+
+   if (!node->right) return node->data;
+   
+   return findMaxHelper(node->right);
+}
+
+void BST::printTreeHelper(Node* node, int space) {
+   if (!node) return;
+
+   // Increase distance between levels
+   space += 6;
+
+   // Print right child first (so it shows on top)
+   printTreeHelper(node->right, space);
+
+   // Print current node after spacing
+   std::cout << std::endl;
+   for (int i = 6; i < space; i++)
+      std::cout << " ";
+
+   // Print node value and color
+   std::cout << node->data << (node->isBlack ? "(B)" : "(R)") << std::endl;
+
+   // Print left child
+   printTreeHelper(node->left, space);
+}
+
+void BST::deleteAll(Node* node) {
+   if (!node) return;
+
+   deleteAll(node->left);
+   deleteAll(node->right);
+
+   delete node;
+}
+
+
+///////////////////////////
+// PUBLIC MEMBER METHODS //
+///////////////////////////
+
+bool BST::contains(int data) {
+   return false;
+}
+
+Node* BST::search(int data) {
+   return nullptr;
+}
+
 void BST::insert(int data) {
    Node* parent = nullptr;
    Node* current = root;
@@ -179,13 +283,67 @@ void BST::insert(int data) {
    }
 
    // Once Red-Black violations have been fixed, the root is always set to black
-   fixViolations(newNode);
+   fixInsertionViolations(newNode);
    root->isBlack = true;
 
 }
 
-void BST::inOrder() {
+void BST::remove(int data) {
+
+}
+
+void BST::inorder() {
    std::cout << "[ ";
-   inOrderHelper(root);
-   std::cout << "]" << std::endl;
+   inorderHelper(root);
+   std::cout << "]";
+}
+
+void BST::preorder() {
+   std::cout << "[ ";
+   preorderHelper(root);
+   std::cout << "]";
+}
+
+void BST::postorder() {
+   std::cout << "[ ";
+   postorderHelper(root);
+   std::cout << "]";
+}
+
+int BST::size() {
+   return sizeHelper(root);
+}
+
+int BST::height() {
+   return 0;
+}
+
+bool BST::isEmpty() {
+   return size() == 0;
+}
+
+int BST::findMin() {
+   return findMinHelper(root);
+}
+
+int BST::findMax() {
+   return findMaxHelper(root);
+}
+
+void BST::printTree() {
+   printTreeHelper(root, 0);
+   std::cout << std::endl;
+}
+
+void BST::clear() {
+   deleteAll(root);
+   root = nullptr;
+}
+
+BST& BST::operator=(const BST& rhs) {
+   if (this != &rhs) {
+      clear();
+      root = copyTree(rhs.root);
+   }
+   return *this;
 }
