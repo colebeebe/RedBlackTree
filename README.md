@@ -4,7 +4,7 @@ For this project, the goal was to implement a Red-Black (Binary Search) Tree. Th
 
 I wanted to create this project because I wanted to practice pointers and recursion, as well as refreshing my knowledge and understanding of the C++ language.
 
-[Software Demo Video](www.youtube.com/watch?v=eenIX5cdYng)
+[Software Demo Video](https://youtube.com/watch?v=eenIX5cdYng)
 
 # Development Environment
 
