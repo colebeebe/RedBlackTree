@@ -2,6 +2,13 @@
 
 For this project, the goal was to implement a Red-Black (Binary Search) Tree. The advantage of this data structure is that it automatically rebalances itself so that search functionality can be as close to O(log *n*) as possible.
 
+To build the project, run:
+
+`cmake -B build -S .`
+`cmake --build build`
+
+in the root directory. The runtime binary should be created in the root directory as `bst`.
+
 I wanted to create this project because I wanted to practice pointers and recursion, as well as refreshing my knowledge and understanding of the C++ language.
 
 [Software Demo Video](https://youtube.com/watch?v=eenIX5cdYng)
